@@ -1,12 +1,15 @@
 import 'package:local_auth/local_auth.dart';
 
-class AuthService {
-  static final _auth = LocalAuthentication();
+import 'auth.repository.dart';
 
-  static Future<bool> canAuth() async =>
+class AuthFingerprintService implements IAuthRepository {
+  final _auth = LocalAuthentication();
+
+  Future<bool> canAuth() async =>
       await _auth.canCheckBiometrics || await _auth.isDeviceSupported();
 
-  static Future<bool> auth() async {
+  @override
+  Future<bool> auth() async {
     try {
       if (!await canAuth()) return false;
 
